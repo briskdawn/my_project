@@ -15,7 +15,7 @@ import mapper.UserMapper;
 import pojo.Manager;
 import pojo.User;
 
-public class test {
+public class MybatisTest {
 
 	public static void main(String[] args) throws IOException {
 		InputStream is =Resources.getResourceAsStream("MybatisConf.xml");
