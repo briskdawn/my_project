@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserMapper" >		<!-- namesapce:接口绑定时才用到这个。在这之前可以随意起名。理解成实现类的全路径(包名+类名) -->
+	<select id="selAll" resultType="pojo.User" >    <!-- 包名/类名 -->
+		select id,name,pwd from user  
+	</select>	
+	<select id="selOne" resultType="pojo.User" parameterType="int">    
+		select id,name,pwd from user  where id=#{4}
+	</select>
+	
+	<select id="selById" resultType="int" >
+		select count(*) from user
+	</select>
+	
+	<select id="page" resultType="pojo.User"  parameterType="map">
+		select * from user limit #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="selByAccInAccout" resultType="pojo.User" >   <!-- 当多参数时,不需要写 parameterType -->
+		select * from user where name=#{0} and pwd =#{1}
+	</select>
+	
+	<insert id="insert" parameterType="pojo.User">
+		insert into user values(default,#{name},#{pwd})
+	</insert>
+	
+	<update id="update" parameterType="pojo.User">
+	   update user set name = #{name} where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from user where id = #{0}
+	</delete>
+</mapper>

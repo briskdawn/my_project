@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	<configuration>
+		
+	<environments default="default">	<!-- default 引用 environment 的 id,当前所使用的环境 -->
+
+		<environment id="default"> 	<!-- 声明可以使用的环境 -->
+
+			<transactionManager type="JDBC"></transactionManager>	<!-- 使用原生 JDBC 事务 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/test"/>
+				<property name="username" value="root"/>
+				<property name="password" value="137814gaolei"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="mapper/UserMapper.xml"/>  <!-- 包名/mapper名  -->
+		
+	</mappers>
+	<!-- 
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+		<package name="mapper"/>
+	</settings>
+	 -->
+	
+</configuration>
