@@ -7,4 +7,13 @@
 	<select id="selById" parameterType="int" resultType="pojo.Manager">
 		select * from manager where id =#{0}
 	</select>
+	
+	<select id="selAll" resultMap="mymap">
+		select * from manager
+	</select>
+	<resultMap type="pojo.Manager" id="mymap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection property="list" select="mapper.UserMapper.selByMid" column="id"></collection>
+	</resultMap>
 </mapper>	

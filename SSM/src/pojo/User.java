@@ -24,15 +24,23 @@ public class User {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	public User(int id, String name, String pwd) {
+
+	public User(int id, String name, String pwd, Manager manager) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.pwd = pwd;
+		this.manager = manager;
+	}
+	public Manager getManager() {
+		return manager;
+	}
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", pwd=" + pwd + "]";
+		return "User [id=" + id + ", name=" + name + ", pwd=" + pwd + ", manager=" + manager + "]";
 	}
     
 }

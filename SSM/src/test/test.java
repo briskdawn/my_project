@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import mapper.UserMapper;
+import pojo.Manager;
 import pojo.User;
 
 public class test {
@@ -51,10 +52,20 @@ public class test {
 				}
 				//----------------------------------------------------------------------
 				UserMapper um = session.getMapper(UserMapper.class);
-				list = um.selByAccInAccout("李师师", "456");
+				list = um.selByAccInAccout("李四", "456");
 				
 				for (User user : list) {
 					System.out.println("多参数查询："+user.toString());
+				}
+				//----------------------多表查询/关联一个对象----------------------------------------
+				list= session.selectList("mapper.UserMapper.selMap");
+				for (User user : list) {
+					System.out.println("多表查询："+user.toString());
+				}
+				//----------------------多表查询/关联多个对象----------------------------------------
+				List<Manager> l= session.selectList("mapper.ManagerMapper.selAll");
+				for (Manager m : l) {
+					System.out.println("多表查询："+m.toString());
 				}
 //				Map<Object, Object> map = session.selectMap("mapper.UserMapper.c","name123");
 //						System.out.println(map);
