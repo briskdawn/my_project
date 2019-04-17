@@ -1,9 +1,10 @@
 package pojo;
 
 public class User {
-    int id;
-    String name;
-    String pwd;
+    private int id;
+    private String name;
+    private String pwd;
+    private Manager manager;
     User(){}
 	public int getId() {
 		return id;

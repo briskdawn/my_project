@@ -34,4 +34,13 @@
 	<delete id="delete" parameterType="int">
 		delete from user where id = #{0}
 	</delete>
+	
+	<!-- =================多表查询==================== -->
+	<select id="selMap" resultMap="ManagerMap">
+		select * from user
+	</select>
+	<resultMap type="user" id="ManagerMap">
+		<result column="id" property="id"/>
+		<association property="Manager" select="mapper.ManagerMapper.selById" column="id"></association>
+	</resultMap>
 </mapper>

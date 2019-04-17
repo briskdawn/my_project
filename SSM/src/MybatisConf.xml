@@ -11,7 +11,7 @@
 			<transactionManager type="JDBC"></transactionManager>	<!-- 使用原生 JDBC 事务 -->
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql://localhost:3306/test"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/test01"/>
 				<property name="username" value="root"/>
 				<property name="password" value="137814gaolei"/>
 			</dataSource>
