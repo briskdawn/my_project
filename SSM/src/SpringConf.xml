@@ -2,35 +2,102 @@
 <beans
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans.xsd">
-		<!-- id 表示获取到对象标识   class 创建哪个类的对象  -->
-	<bean id="user01" class="pojo.user01">
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd">
+		<!-- id 表示获取到对象标识   class 创建哪个类的对象
+		<bean id="user01" class="pojo.user01">
 	<constructor-arg index="0" name="id" type="int" value="123"></constructor-arg>
 	<constructor-arg index="1" name="name" type="java.lang.String" value="fgh"></constructor-arg>
 	</bean>
-	<bean id="user" class="pojo.User">
+		  -->
+	
+	<bean id="user" class="pojo.user01">
 		<property name="id"> 
 			<value>5</value>
 		</property>
 		<property name="name">
 			<value>高磊</value>
 		</property>
-		<property name="pwd">
-			<value>567</value>
-		</property>
-		<property name="manager" ref="Manager"></property>
+		
+		<property name="manager01" ref="Manager"></property>
 	</bean>
 	
-	<bean id="Manager" class="pojo.Manager">
+	<bean id="Manager" class="pojo.Manager01">
 		<property name="id"> <value>3</value>	</property>
 		<property name="name"><value>admin03</value> </property>
-		<property name="pwd" > <value>345</value> </property>
-		<property name="list" ref="user" >
-		  <list>
-		    <value>1</value>
-		    
-		  </list>
-		</property>
+		
 	</bean>
-</beans>
+	
+	<!-- ====================Spring-Mybatis整合==================== -->
+	
+	
+	<!-- 数据源封装类 .数据源:获取数据库连接,spring-jdbc.jar 中-->
+	<bean id="dataSouce" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/test01"></property>
+		<property name="username" value="root"></property>
+		<property name="password"  value="137814gaolei"></property>
+	</bean>
+	
+	
+	<!-- 创建 SqlSessionFactory 对象 -->
+	<bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据库连接信息来源于 dataSource -->
+		<property name="dataSource" ref="dataSouce"></property>
+	</bean>
+	
+	
+	<!-- 扫描器相当于 mybatis.xml 中 mappers 下 package 标签,扫描 com.bjsxt.mapper 包后会给对应接口创建对象-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 要扫描哪个包 -->
+		<property name="basePackage" value="mapper"></property>
+		<!-- 和 factory 产生关系 -->
+		<property name="sqlSessionFactory" ref="factory"></property>
+	</bean>
+	
+	
+	<!-- 由 spring 管理 service 实现类 -->
+	<bean id="userService" class="service.impl.UserImpl">
+		<property name="userMapper" ref="userMapper"></property>
+		<!-- 注意：扫描mapper包后，会把XxxMapper变成xxxMapper,也就是首字母小写。所以ref的值要填对 -->
+	</bean>
+	
+	<!-- ======================AOP==================================== -->
+	<bean id="mybefore" class="AOP.MyBeforeAdvice"></bean>
+	<bean id="myafter"  class="AOP.MyAfterAdvice"></bean>
+	<bean id="demo" class="test.Demo"></bean>		<!-- 配置 Demo 类,测试使用 -->
+	<bean id="mythrow" class="AOP.MyThrowAdvice"></bean>
+	<bean id="myThrow" class="AOP.MyThrow"></bean>
+	<bean id="myarround" class="AOP.MyArround"></bean>
+	<!-- 配置切面 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* test.Demo.demo2())" id="mypoint"/>		<!-- 配置切点 -->
+		<aop:advisor advice-ref="mybefore" pointcut-ref="mypoint"/>		<!-- 通知 -->
+		<aop:advisor advice-ref="myafter" pointcut-ref="mypoint"/>
+		
+		<!-- 异常通知：AspectJ方式 -->
+		<aop:aspect ref="mythrow">
+		<aop:pointcut expression="execution(* test.Demo.demo1())" id="mypoint"/>
+		<aop:after-throwing method="myexception" pointcut-ref="mypoint" throwing="e1"/>
+		</aop:aspect>
+
+	</aop:config>
+	
+	<aop:config>
+		<!-- 异常通知：Schema-base方式 -->
+		<aop:pointcut expression="execution(* test.Demo.demo1())" id="mypoint"/>
+		<aop:advisor advice-ref="myhrow" pointcut-ref="mypoint" />
+	</aop:config>
+	
+	<aop:config>
+		 <!-- 环绕通知 :Schema-base方式实现-->
+		 <aop:pointcut expression="execution(* test.Demo.demo1())" id="mypoint"/>
+	     <aop:advisor advice-ref="myarround" pointcut-ref="mypoint" />
+	</aop:config>
+	
+	
+ 	
+	</beans>

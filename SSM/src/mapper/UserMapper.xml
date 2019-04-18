@@ -4,9 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.UserMapper" >		<!-- namesapce:接口绑定时才用到这个。在这之前可以随意起名。理解成实现类的全路径(包名+类名) -->
-	<select id="selAll" resultType="pojo.User" >    <!-- 包名/类名 -->
-		select id,name,pwd from user  
-	</select>	
+	
 	<select id="selOne" resultType="pojo.User" parameterType="int">    
 		select id,name,pwd from user  where id=#{4}
 	</select>
