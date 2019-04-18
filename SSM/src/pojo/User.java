@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String pwd;
     private Manager manager;
-    User(){}
+    public User(){}
 	public int getId() {
 		return id;
 	}

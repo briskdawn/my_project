@@ -5,5 +5,32 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
 		<!-- id 表示获取到对象标识   class 创建哪个类的对象  -->
-<bean id="User" class="pojo.User"/>
+	<bean id="user01" class="pojo.user01">
+	<constructor-arg index="0" name="id" type="int" value="123"></constructor-arg>
+	<constructor-arg index="1" name="name" type="java.lang.String" value="fgh"></constructor-arg>
+	</bean>
+	<bean id="user" class="pojo.User">
+		<property name="id"> 
+			<value>5</value>
+		</property>
+		<property name="name">
+			<value>高磊</value>
+		</property>
+		<property name="pwd">
+			<value>567</value>
+		</property>
+		<property name="manager" ref="Manager"></property>
+	</bean>
+	
+	<bean id="Manager" class="pojo.Manager">
+		<property name="id"> <value>3</value>	</property>
+		<property name="name"><value>admin03</value> </property>
+		<property name="pwd" > <value>345</value> </property>
+		<property name="list" ref="user" >
+		  <list>
+		    <value>1</value>
+		    
+		  </list>
+		</property>
+	</bean>
 </beans>
